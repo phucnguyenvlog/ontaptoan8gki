@@ -1,0 +1,1452 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Ôn Tập Giữa Học Kỳ I - Toán 8 (Năm học 2026-2027)</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <style>
+    body {
+      font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+      background-color: #f8fafc;
+      color: #0f172a;
+    }
+    .math {
+      font-family: 'Times New Roman', Times, serif;
+      font-style: italic;
+      font-size: 1.08em;
+      letter-spacing: 0.01em;
+    }
+    .math-num {
+      font-family: 'Times New Roman', Times, serif;
+      font-style: normal;
+      font-size: 1.06em;
+    }
+    .frac {
+      display: inline-flex;
+      flex-direction: column;
+      align-items: center;
+      vertical-align: middle;
+      margin: 0 3px;
+      font-family: 'Times New Roman', Times, serif;
+      font-size: 0.95em;
+      line-height: 1.1;
+    }
+    .frac-num {
+      border-bottom: 1.2px solid currentColor;
+      padding: 0 3px 1px;
+    }
+    .frac-den {
+      padding: 1px 3px 0;
+    }
+    .angle-hat {
+      position: relative;
+      display: inline-block;
+      font-family: 'Times New Roman', Times, serif;
+      font-style: italic;
+    }
+    .angle-hat::before {
+      content: "^";
+      position: absolute;
+      top: -0.55em;
+      left: 50%;
+      transform: translateX(-45%) scaleX(1.25);
+      font-style: normal;
+      font-weight: bold;
+      font-size: 0.85em;
+    }
+    .option-btn {
+      transition: all 0.15s ease-in-out;
+    }
+    .option-btn:hover:not(:disabled) {
+      transform: translateY(-1px);
+    }
+    /* Custom scrollbar */
+    ::-webkit-scrollbar {
+      width: 8px;
+      height: 8px;
+    }
+    ::-webkit-scrollbar-track {
+      background: #f1f5f9;
+    }
+    ::-webkit-scrollbar-thumb {
+      background: #cbd5e1;
+      border-radius: 4px;
+    }
+    ::-webkit-scrollbar-thumb:hover {
+      background: #94a3b8;
+    }
+  </style>
+</head>
+<body class="min-h-screen flex flex-col">
+
+  <!-- Top Header -->
+  <header class="bg-white border-b border-slate-200 sticky top-0 z-30 shadow-sm">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 py-3 flex flex-wrap items-center justify-between gap-3">
+      <div class="flex items-center gap-3">
+        <div class="w-10 h-10 rounded-xl bg-indigo-600 text-white flex items-center justify-center font-bold text-lg shadow-sm">
+          T8
+        </div>
+        <div>
+          <h1 class="text-base sm:text-lg font-bold text-slate-900 leading-tight">
+            Ôn Tập Giữa Học Kỳ I - Môn Toán 8
+          </h1>
+          <p class="text-xs text-slate-500">Năm học 2026–2027 • 20 câu Trắc nghiệm &amp; 4 câu Đúng/Sai</p>
+        </div>
+      </div>
+
+      <!-- Status & Timer -->
+      <div class="flex items-center gap-2 sm:gap-3">
+        <div class="flex items-center gap-1.5 bg-slate-100 px-3 py-1.5 rounded-lg text-xs sm:text-sm font-medium text-slate-700">
+          <svg class="w-4 h-4 text-indigo-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"/>
+          </svg>
+          <span id="timerDisplay">00:00</span>
+        </div>
+
+        <button id="btnResetQuiz" onclick="resetAndStart()" class="inline-flex items-center gap-1.5 bg-indigo-50 hover:bg-indigo-100 text-indigo-700 font-semibold text-xs sm:text-sm px-3.5 py-2 rounded-lg transition">
+          <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15"/>
+          </svg>
+          <span>Làm lại</span>
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <!-- Main Content -->
+  <main class="flex-1 max-w-7xl w-full mx-auto px-4 sm:px-6 py-6 grid grid-cols-1 lg:grid-cols-12 gap-6 items-start">
+
+    <!-- Left/Top Control Panel & Question Navigator -->
+    <aside class="lg:col-span-4 xl:col-span-4 space-y-5 lg:sticky lg:top-20">
+      
+      <!-- Settings Card -->
+      <div class="bg-white rounded-2xl border border-slate-200 p-5 shadow-sm space-y-5">
+        <div class="flex items-center justify-between border-b border-slate-100 pb-3">
+          <h2 class="font-bold text-slate-800 flex items-center gap-2 text-sm sm:text-base">
+            <svg class="w-5 h-5 text-indigo-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6V4m0 2a2 2 0 100 4m0-4a2 2 0 110 4m-6 8a2 2 0 100-4m0 4a2 2 0 110-4m0 4v2m0-6V4m6 6v10m6-2a2 2 0 100-4m0 4a2 2 0 110-4m0 4v2m0-6V4"/>
+            </svg>
+            Tùy chọn chế độ ôn tập
+          </h2>
+          <span id="shuffleBadge" class="text-xs font-semibold px-2.5 py-0.5 rounded-full bg-slate-100 text-slate-700">
+            Đề gốc
+          </span>
+        </div>
+
+        <!-- Chức năng 1: Đảo đề hay Giữ nguyên đề gốc -->
+        <div class="space-y-2">
+          <label class="block text-xs font-bold uppercase tracking-wider text-slate-500">
+            1. Thứ tự câu hỏi &amp; đáp án
+          </label>
+          <div class="grid grid-cols-2 gap-2 p-1 bg-slate-100 rounded-xl">
+            <button id="btnOrderOriginal" onclick="setOrderMode(false)" class="py-2 px-3 rounded-lg text-xs sm:text-sm font-semibold transition flex items-center justify-center gap-1.5 bg-white text-indigo-700 shadow-sm">
+              <svg class="w-4 h-4 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2"/>
+              </svg>
+              <span>Giữ đề gốc</span>
+            </button>
+            <button id="btnOrderShuffle" onclick="setOrderMode(true)" class="py-2 px-3 rounded-lg text-xs sm:text-sm font-semibold transition flex items-center justify-center gap-1.5 text-slate-600 hover:text-slate-900">
+              <svg class="w-4 h-4 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7h12m0 0l-4-4m4 4l-4 4m0 6H4m0 0l4 4m-4-4l4-4"/>
+              </svg>
+              <span>Đảo đề</span>
+            </button>
+          </div>
+          <p id="orderHelperText" class="text-xs text-slate-500 leading-relaxed">
+            Giữ nguyên thứ tự từ Câu 1 → 20 (Phần I), Câu 1 → 4 (Phần II) và giữ nguyên vị trí A, B, C, D như trên giấy.
+          </p>
+        </div>
+
+        <!-- Chức năng 2: Chế độ Luyện tập (ra kết quả luôn) hay Thi thử (nộp bài mới ra kết quả) -->
+        <div class="space-y-2">
+          <label class="block text-xs font-bold uppercase tracking-wider text-slate-500">
+            2. Chế độ hiển thị kết quả
+          </label>
+          <div class="grid grid-cols-2 gap-2 p-1 bg-slate-100 rounded-xl">
+            <button id="btnModePractice" onclick="setQuizMode('practice')" class="py-2 px-3 rounded-lg text-xs sm:text-sm font-semibold transition flex items-center justify-center gap-1.5 bg-white text-indigo-700 shadow-sm">
+              <svg class="w-4 h-4 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"/>
+              </svg>
+              <span>Chấm ngay</span>
+            </button>
+            <button id="btnModeExam" onclick="setQuizMode('exam')" class="py-2 px-3 rounded-lg text-xs sm:text-sm font-semibold transition flex items-center justify-center gap-1.5 text-slate-600 hover:text-slate-900">
+              <svg class="w-4 h-4 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"/>
+              </svg>
+              <span>Nộp bài mới chấm</span>
+            </button>
+          </div>
+          <p id="modeHelperText" class="text-xs text-slate-500 leading-relaxed">
+            <strong>Chế độ Luyện tập:</strong> Chọn đáp án nào sẽ báo Đúng/Sai và mở lời giải chi tiết ngay lập tức.
+          </p>
+        </div>
+
+        <!-- Bộ lọc phần thi -->
+        <div class="space-y-2 pt-1 border-t border-slate-100">
+          <label class="block text-xs font-bold uppercase tracking-wider text-slate-500">
+            Phần muốn hiển thị
+          </label>
+          <div class="grid grid-cols-3 gap-1.5">
+            <button id="filterAll" onclick="setSectionFilter('all')" class="py-1.5 px-2 rounded-lg text-xs font-semibold bg-indigo-50 text-indigo-700 border border-indigo-200">
+              Tất cả (24)
+            </button>
+            <button id="filterPart1" onclick="setSectionFilter('part1')" class="py-1.5 px-2 rounded-lg text-xs font-semibold bg-white text-slate-600 border border-slate-200 hover:bg-slate-50">
+              Phần I (20)
+            </button>
+            <button id="filterPart2" onclick="setSectionFilter('part2')" class="py-1.5 px-2 rounded-lg text-xs font-semibold bg-white text-slate-600 border border-slate-200 hover:bg-slate-50">
+              Phần II (4)
+            </button>
+          </div>
+        </div>
+      </div>
+
+      <!-- Score & Progress Card -->
+      <div class="bg-white rounded-2xl border border-slate-200 p-5 shadow-sm space-y-4">
+        <div class="flex items-center justify-between">
+          <h3 class="font-bold text-slate-800 text-sm sm:text-base">Tiến độ &amp; Bảng câu hỏi</h3>
+          <span id="progressCountText" class="text-xs font-semibold text-indigo-600 bg-indigo-50 px-2.5 py-1 rounded-full">
+            Đã làm: 0/24
+          </span>
+        </div>
+
+        <!-- Progress bar -->
+        <div class="w-full bg-slate-100 h-2.5 rounded-full overflow-hidden">
+          <div id="progressBar" class="bg-indigo-600 h-full transition-all duration-300" style="width: 0%"></div>
+        </div>
+
+        <!-- Live / Final Score Box -->
+        <div id="scoreSummaryBox" class="p-3.5 rounded-xl bg-slate-50 border border-slate-200/80 grid grid-cols-3 gap-2 text-center">
+          <div>
+            <div class="text-xs text-slate-500">Điểm quy đổi</div>
+            <div id="scorePointText" class="text-lg font-extrabold text-indigo-600">0.0</div>
+          </div>
+          <div class="border-x border-slate-200">
+            <div class="text-xs text-slate-500">Trắc nghiệm I</div>
+            <div id="scorePart1Text" class="text-lg font-bold text-emerald-600">0/20</div>
+          </div>
+          <div>
+            <div class="text-xs text-slate-500">Ý Đúng/Sai II</div>
+            <div id="scorePart2Text" class="text-lg font-bold text-emerald-600">0/16</div>
+          </div>
+        </div>
+
+        <!-- Question Grid Navigator -->
+        <div class="space-y-3">
+          <div>
+            <div class="text-xs font-semibold text-slate-500 mb-1.5">Phần I: Trắc nghiệm 4 lựa chọn (20 câu)</div>
+            <div id="navGridPart1" class="grid grid-cols-5 sm:grid-cols-10 lg:grid-cols-5 gap-1.5"></div>
+          </div>
+          <div>
+            <div class="text-xs font-semibold text-slate-500 mb-1.5">Phần II: Trắc nghiệm Đúng / Sai (4 câu)</div>
+            <div id="navGridPart2" class="grid grid-cols-4 gap-1.5"></div>
+          </div>
+        </div>
+
+        <!-- Legend -->
+        <div class="flex flex-wrap items-center gap-3 text-[11px] text-slate-500 pt-2 border-t border-slate-100">
+          <span class="flex items-center gap-1"><span class="w-2.5 h-2.5 rounded-full bg-slate-200 inline-block"></span> Chưa làm</span>
+          <span class="flex items-center gap-1"><span class="w-2.5 h-2.5 rounded-full bg-indigo-500 inline-block"></span> Đã chọn</span>
+          <span class="flex items-center gap-1"><span class="w-2.5 h-2.5 rounded-full bg-emerald-500 inline-block"></span> Đúng</span>
+          <span class="flex items-center gap-1"><span class="w-2.5 h-2.5 rounded-full bg-rose-500 inline-block"></span> Sai / Chưa trọn vẹn</span>
+        </div>
+
+        <!-- Submit Button (Prominent in Exam Mode or anytime user wants to finish) -->
+        <div class="pt-1 space-y-2">
+          <button id="btnSubmitExam" onclick="submitExam()" class="w-full py-3 px-4 rounded-xl font-bold text-sm text-white bg-indigo-600 hover:bg-indigo-700 active:bg-indigo-800 shadow-md shadow-indigo-500/20 transition flex items-center justify-center gap-2">
+            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"/>
+            </svg>
+            <span id="btnSubmitText">Nộp bài &amp; Xem kết quả</span>
+          </button>
+
+          <button id="btnRetryWrong" onclick="retryWrongOnly()" class="hidden w-full py-2.5 px-4 rounded-xl font-semibold text-xs sm:text-sm text-amber-800 bg-amber-100 hover:bg-amber-200 transition flex items-center justify-center gap-1.5">
+            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z"/>
+            </svg>
+            <span>Luyện lại các câu làm sai</span>
+          </button>
+        </div>
+      </div>
+
+    </aside>
+
+    <!-- Right/Main Questions Feed -->
+    <section class="lg:col-span-8 xl:col-span-8 space-y-8">
+
+      <!-- Result Banner (Shown after submitting) -->
+      <div id="resultBanner" class="hidden bg-gradient-to-r from-indigo-600 to-violet-600 rounded-2xl p-6 text-white shadow-lg">
+        <div class="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
+          <div class="space-y-1">
+            <span class="inline-block text-xs font-bold uppercase tracking-wider bg-white/20 px-2.5 py-1 rounded-full">
+              Kết quả bài làm
+            </span>
+            <h2 id="resultBannerTitle" class="text-2xl font-extrabold">Hoàn thành bài ôn tập!</h2>
+            <p id="resultBannerDesc" class="text-sm text-indigo-100">
+              Bạn có thể xem chi tiết đáp án đúng và lời giải ở từng câu bên dưới.
+            </p>
+          </div>
+          <div class="bg-white/15 backdrop-blur-sm rounded-2xl px-5 py-3 text-center shrink-0 border border-white/20">
+            <div class="text-xs uppercase tracking-wider text-indigo-100">Tổng điểm (Thang 10)</div>
+            <div id="resultBannerScore" class="text-3xl font-black">10.0</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- PART I CONTAINER -->
+      <div id="part1Section" class="space-y-4">
+        <div class="bg-white rounded-2xl border border-slate-200 p-4 sm:p-5 shadow-sm flex items-center justify-between">
+          <div>
+            <span class="text-xs font-bold uppercase tracking-wider text-indigo-600">Phần I (20 câu)</span>
+            <h2 class="text-lg sm:text-xl font-extrabold text-slate-900">
+              Câu trắc nghiệm nhiều phương án lựa chọn
+            </h2>
+            <p class="text-xs sm:text-sm text-slate-500 mt-0.5">
+              Mỗi câu hỏi chỉ chọn một phương án đúng nhất trong bốn phương án A, B, C, D.
+            </p>
+          </div>
+        </div>
+
+        <div id="part1QuestionsList" class="space-y-4"></div>
+      </div>
+
+      <!-- PART II CONTAINER -->
+      <div id="part2Section" class="space-y-4">
+        <div class="bg-white rounded-2xl border border-slate-200 p-4 sm:p-5 shadow-sm flex items-center justify-between">
+          <div>
+            <span class="text-xs font-bold uppercase tracking-wider text-indigo-600">Phần II (4 câu - 16 ý)</span>
+            <h2 class="text-lg sm:text-xl font-extrabold text-slate-900">
+              Câu trắc nghiệm Đúng / Sai
+            </h2>
+            <p class="text-xs sm:text-sm text-slate-500 mt-0.5">
+              Trong mỗi ý <strong>a), b), c), d)</strong> ở mỗi câu, hãy chọn <strong>Đúng (Đ)</strong> hoặc <strong>Sai (S)</strong>.
+            </p>
+          </div>
+        </div>
+
+        <div id="part2QuestionsList" class="space-y-4"></div>
+      </div>
+
+      <!-- Bottom Submit Bar -->
+      <div class="bg-white rounded-2xl border border-slate-200 p-4 sm:p-5 shadow-sm flex flex-wrap items-center justify-between gap-4">
+        <div>
+          <div class="text-sm font-bold text-slate-800">Đã hoàn thành đến cuối trang</div>
+          <div id="bottomStatusSubtext" class="text-xs text-slate-500">Kiểm tra kỹ các câu trước khi nộp bài nhé!</div>
+        </div>
+        <div class="flex items-center gap-3">
+          <button onclick="window.scrollTo({top: 0, behavior: 'smooth'})" class="px-4 py-2.5 rounded-xl text-xs sm:text-sm font-semibold bg-slate-100 hover:bg-slate-200 text-slate-700 transition">
+            Lên đầu trang ↑
+          </button>
+          <button onclick="submitExam()" class="px-5 py-2.5 rounded-xl text-xs sm:text-sm font-bold bg-indigo-600 hover:bg-indigo-700 text-white shadow-sm transition">
+            Nộp bài &amp; Chấm điểm
+          </button>
+        </div>
+      </div>
+
+    </section>
+  </main>
+
+  <script>
+    // =========================================================================
+    // SVG DIAGRAMS FOR GEOMETRY QUESTIONS (CÂU 12, 16, 18, 20)
+    // =========================================================================
+    const SVG_DIAGRAMS = {
+      q12: `
+        <svg viewBox="0 0 320 200" class="w-full max-w-[300px] mx-auto my-2 select-none">
+          <!-- Quadrilateral ABCD -->
+          <polygon points="75,38 215,25 245,162 92,172" fill="#f8fafc" stroke="#1e293b" stroke-width="2" />
+          <!-- Angle arcs -->
+          <path d="M 78,60 A 22,22 0 0 0 97,36" fill="none" stroke="#4f46e5" stroke-width="1.5" />
+          <path d="M 193,27 A 22,22 0 0 0 220,47" fill="none" stroke="#4f46e5" stroke-width="1.5" />
+          <path d="M 240,140 A 22,22 0 0 0 222,163" fill="none" stroke="#4f46e5" stroke-width="1.5" />
+          <path d="M 114,170 A 22,22 0 0 0 89,150" fill="none" stroke="#e11d48" stroke-width="1.5" stroke-dasharray="3,2" />
+          <!-- Angle texts -->
+          <text x="86" y="64" font-size="12" font-weight="600" fill="#334155">70°</text>
+          <text x="184" y="52" font-size="12" font-weight="600" fill="#334155">80°</text>
+          <text x="205" y="150" font-size="12" font-weight="600" fill="#334155">100°</text>
+          <text x="103" y="157" font-size="12" font-weight="700" fill="#e11d48">?</text>
+          <!-- Vertices labels -->
+          <text x="56" y="36" font-size="14" font-weight="700" fill="#0f172a">A</text>
+          <text x="223" y="22" font-size="14" font-weight="700" fill="#0f172a">B</text>
+          <text x="255" y="172" font-size="14" font-weight="700" fill="#0f172a">C</text>
+          <text x="72" y="185" font-size="14" font-weight="700" fill="#0f172a">D</text>
+        </svg>
+      `,
+      q16: `
+        <svg viewBox="0 0 320 185" class="w-full max-w-[300px] mx-auto my-2 select-none">
+          <!-- Parallelogram ABCD -->
+          <polygon points="95,35 245,35 205,150 55,150" fill="#f8fafc" stroke="#1e293b" stroke-width="2" />
+          <!-- Diagonals -->
+          <line x1="95" y1="35" x2="205" y2="150" stroke="#475569" stroke-width="1.5" stroke-dasharray="5,3" />
+          <line x1="245" y1="35" x2="55" y2="150" stroke="#475569" stroke-width="1.5" stroke-dasharray="5,3" />
+          <!-- Center O -->
+          <circle cx="150" cy="92.5" r="2.8" fill="#1e293b" />
+          <text x="146" y="82" font-size="13" font-weight="700" fill="#0f172a">O</text>
+          <!-- Vertices labels -->
+          <text x="80" y="30" font-size="14" font-weight="700" fill="#0f172a">A</text>
+          <text x="252" y="30" font-size="14" font-weight="700" fill="#0f172a">B</text>
+          <text x="212" y="165" font-size="14" font-weight="700" fill="#0f172a">C</text>
+          <text x="38" y="165" font-size="14" font-weight="700" fill="#0f172a">D</text>
+        </svg>
+      `,
+      q18: `
+        <svg viewBox="0 0 320 185" class="w-full max-w-[300px] mx-auto my-2 select-none">
+          <!-- Rectangle ABCD -->
+          <rect x="65" y="32" width="190" height="116" fill="#f8fafc" stroke="#1e293b" stroke-width="2" />
+          <!-- Right angle squares -->
+          <polyline points="65,44 77,44 77,32" fill="none" stroke="#64748b" stroke-width="1.3" />
+          <polyline points="243,32 243,44 255,44" fill="none" stroke="#64748b" stroke-width="1.3" />
+          <polyline points="243,148 243,136 255,136" fill="none" stroke="#64748b" stroke-width="1.3" />
+          <polyline points="65,136 77,136 77,148" fill="none" stroke="#64748b" stroke-width="1.3" />
+          <!-- Diagonals -->
+          <line x1="65" y1="32" x2="255" y2="148" stroke="#475569" stroke-width="1.5" stroke-dasharray="5,3" />
+          <line x1="255" y1="32" x2="65" y2="148" stroke="#475569" stroke-width="1.5" stroke-dasharray="5,3" />
+          <!-- Center O -->
+          <circle cx="160" cy="90" r="2.8" fill="#1e293b" />
+          <text x="155" y="79" font-size="13" font-weight="700" fill="#0f172a">O</text>
+          <!-- Vertices -->
+          <text x="48" y="28" font-size="14" font-weight="700" fill="#0f172a">A</text>
+          <text x="261" y="28" font-size="14" font-weight="700" fill="#0f172a">B</text>
+          <text x="261" y="162" font-size="14" font-weight="700" fill="#0f172a">C</text>
+          <text x="48" y="162" font-size="14" font-weight="700" fill="#0f172a">D</text>
+        </svg>
+      `,
+      q20: `
+        <svg viewBox="0 0 320 190" class="w-full max-w-[300px] mx-auto my-2 select-none">
+          <!-- Rhombus ABCD -->
+          <polygon points="55,95 160,25 265,95 160,165" fill="#f8fafc" stroke="#1e293b" stroke-width="2" />
+          <!-- Diagonals -->
+          <line x1="55" y1="95" x2="265" y2="95" stroke="#475569" stroke-width="1.5" stroke-dasharray="5,3" />
+          <line x1="160" y1="25" x2="160" y2="165" stroke="#475569" stroke-width="1.5" stroke-dasharray="5,3" />
+          <!-- Right angle at O -->
+          <polyline points="160,85 170,85 170,95" fill="none" stroke="#64748b" stroke-width="1.3" />
+          <!-- Tick marks on 4 equal sides -->
+          <line x1="103" y1="56" x2="111" y2="66" stroke="#1e293b" stroke-width="1.6" />
+          <line x1="217" y1="56" x2="209" y2="66" stroke="#1e293b" stroke-width="1.6" />
+          <line x1="209" y1="124" x2="217" y2="134" stroke="#1e293b" stroke-width="1.6" />
+          <line x1="111" y1="124" x2="103" y2="134" stroke="#1e293b" stroke-width="1.6" />
+          <!-- Center O -->
+          <circle cx="160" cy="95" r="2.5" fill="#1e293b" />
+          <text x="165" y="82" font-size="12" font-weight="700" fill="#0f172a">O</text>
+          <!-- Vertices -->
+          <text x="37" y="99" font-size="14" font-weight="700" fill="#0f172a">A</text>
+          <text x="155" y="17" font-size="14" font-weight="700" fill="#0f172a">B</text>
+          <text x="272" y="99" font-size="14" font-weight="700" fill="#0f172a">C</text>
+          <text x="155" y="182" font-size="14" font-weight="700" fill="#0f172a">D</text>
+        </svg>
+      `
+    };
+
+    // =========================================================================
+    // ORIGINAL QUESTION DATABASE (FROM THE 3 STUDY SHEET IMAGES)
+    // =========================================================================
+    const ORIGINAL_PART1 = [
+      {
+        id: 'p1_q1',
+        originalNum: 1,
+        question: `Trong các biểu thức sau, biểu thức nào là một đơn thức?`,
+        options: [
+          { id: 'A', text: `<span class="math">2x + 3y</span>.`, isCorrect: false },
+          { id: 'B', text: `<span class="math">&minus;5x<sup>2</sup>y<sup>3</sup></span>.`, isCorrect: true },
+          { id: 'C', text: `<span class="frac"><span class="frac-num math">x &minus; 1</span><span class="frac-den math">y</span></span>.`, isCorrect: false },
+          { id: 'D', text: `<span class="math">3x<sup>2</sup> &minus; 2y</span>.`, isCorrect: false }
+        ],
+        explanation: `Đơn thức là biểu thức đại số chỉ gồm một số, hoặc một biến, hoặc một tích giữa các số và các biến. Do đó <span class="math">&minus;5x<sup>2</sup>y<sup>3</sup></span> là đơn thức.`
+      },
+      {
+        id: 'p1_q2',
+        originalNum: 2,
+        question: `Bậc của đơn thức <span class="math">&minus;3x<sup>3</sup>y<sup>2</sup>z<sup>4</sup></span> là:`,
+        options: [
+          { id: 'A', text: `<span class="math-num">5</span>.`, isCorrect: false },
+          { id: 'B', text: `<span class="math-num">7</span>.`, isCorrect: false },
+          { id: 'C', text: `<span class="math-num">9</span>.`, isCorrect: true },
+          { id: 'D', text: `<span class="math-num">10</span>.`, isCorrect: false }
+        ],
+        explanation: `Bậc của đơn thức có hệ số khác 0 là tổng số mũ của tất cả các biến có trong đơn thức đó: <span class="math-num">3 + 2 + 4 = 9</span>.`
+      },
+      {
+        id: 'p1_q3',
+        originalNum: 3,
+        question: `Bậc của đa thức <span class="math">P = 4x<sup>5</sup>y<sup>2</sup> &minus; 3x<sup>3</sup>y<sup>4</sup> + 7xy &minus; 4x<sup>5</sup>y<sup>2</sup> + 2</span> là:`,
+        options: [
+          { id: 'A', text: `<span class="math-num">7</span>.`, isCorrect: true },
+          { id: 'B', text: `<span class="math-num">8</span>.`, isCorrect: false },
+          { id: 'C', text: `<span class="math-num">6</span>.`, isCorrect: false },
+          { id: 'D', text: `<span class="math-num">5</span>.`, isCorrect: false }
+        ],
+        explanation: `Thu gọn đa thức: <span class="math">P = (4x<sup>5</sup>y<sup>2</sup> &minus; 4x<sup>5</sup>y<sup>2</sup>) &minus; 3x<sup>3</sup>y<sup>4</sup> + 7xy + 2 = &minus;3x<sup>3</sup>y<sup>4</sup> + 7xy + 2</span>. Hạng tử có bậc cao nhất là <span class="math">&minus;3x<sup>3</sup>y<sup>4</sup></span> có bậc <span class="math-num">3 + 4 = 7</span>. Vậy bậc của đa thức <span class="math">P</span> là <span class="math-num">7</span>.`
+      },
+      {
+        id: 'p1_q4',
+        originalNum: 4,
+        question: `Tổng của hai đa thức <span class="math">A = 3x<sup>2</sup> &minus; xy + 2y<sup>2</sup></span> và <span class="math">B = &minus;2x<sup>2</sup> + xy &minus; y<sup>2</sup></span> là:`,
+        options: [
+          { id: 'A', text: `<span class="math">x<sup>2</sup> + y<sup>2</sup></span>.`, isCorrect: true },
+          { id: 'B', text: `<span class="math">5x<sup>2</sup> &minus; 2xy + 3y<sup>2</sup></span>.`, isCorrect: false },
+          { id: 'C', text: `<span class="math">x<sup>2</sup> + 2xy + y<sup>2</sup></span>.`, isCorrect: false },
+          { id: 'D', text: `<span class="math">&minus;x<sup>2</sup> + y<sup>2</sup></span>.`, isCorrect: false }
+        ],
+        explanation: `Ta có: <span class="math">A + B = (3x<sup>2</sup> &minus; 2x<sup>2</sup>) + (&minus;xy + xy) + (2y<sup>2</sup> &minus; y<sup>2</sup>) = x<sup>2</sup> + y<sup>2</sup></span>.`
+      },
+      {
+        id: 'p1_q5',
+        originalNum: 5,
+        question: `Hiệu của hai đa thức <span class="math">M = 5x<sup>3</sup> &minus; 2x<sup>2</sup>y + 1</span> và <span class="math">N = 3x<sup>3</sup> &minus; 2x<sup>2</sup>y &minus; 4</span> là:`,
+        options: [
+          { id: 'A', text: `<span class="math">2x<sup>3</sup> &minus; 4x<sup>2</sup>y &minus; 3</span>.`, isCorrect: false },
+          { id: 'B', text: `<span class="math">2x<sup>3</sup> + 5</span>.`, isCorrect: true },
+          { id: 'C', text: `<span class="math">2x<sup>3</sup> &minus; 3</span>.`, isCorrect: false },
+          { id: 'D', text: `<span class="math">8x<sup>3</sup> + 5</span>.`, isCorrect: false }
+        ],
+        explanation: `Ta có: <span class="math">M &minus; N = (5x<sup>3</sup> &minus; 3x<sup>3</sup>) + (&minus;2x<sup>2</sup>y + 2x<sup>2</sup>y) + (1 &minus; (&minus;4)) = 2x<sup>3</sup> + 5</span>.`
+      },
+      {
+        id: 'p1_q6',
+        originalNum: 6,
+        question: `Kết quả của phép nhân đơn thức với đa thức <span class="math">2xy(3x<sup>2</sup> &minus; xy + 5)</span> là:`,
+        options: [
+          { id: 'A', text: `<span class="math">6x<sup>3</sup>y &minus; 2x<sup>2</sup>y<sup>2</sup> + 10xy</span>.`, isCorrect: true },
+          { id: 'B', text: `<span class="math">6x<sup>3</sup>y &minus; xy + 10xy</span>.`, isCorrect: false },
+          { id: 'C', text: `<span class="math">6x<sup>2</sup>y &minus; 2x<sup>2</sup>y<sup>2</sup> + 10xy</span>.`, isCorrect: false },
+          { id: 'D', text: `<span class="math">5x<sup>3</sup>y &minus; 2x<sup>2</sup>y<sup>2</sup> + 7xy</span>.`, isCorrect: false }
+        ],
+        explanation: `Nhân đơn thức <span class="math">2xy</span> với từng hạng tử của đa thức: <span class="math">2xy &middot; 3x<sup>2</sup> &minus; 2xy &middot; xy + 2xy &middot; 5 = 6x<sup>3</sup>y &minus; 2x<sup>2</sup>y<sup>2</sup> + 10xy</span>.`
+      },
+      {
+        id: 'p1_q7',
+        originalNum: 7,
+        question: `Tích của hai đa thức <span class="math">(x &minus; 2)(x + 5)</span> bằng:`,
+        options: [
+          { id: 'A', text: `<span class="math">x<sup>2</sup> + 3x &minus; 10</span>.`, isCorrect: true },
+          { id: 'B', text: `<span class="math">x<sup>2</sup> &minus; 3x &minus; 10</span>.`, isCorrect: false },
+          { id: 'C', text: `<span class="math">x<sup>2</sup> + 7x &minus; 10</span>.`, isCorrect: false },
+          { id: 'D', text: `<span class="math">x<sup>2</sup> &minus; 10</span>.`, isCorrect: false }
+        ],
+        explanation: `Ta có: <span class="math">(x &minus; 2)(x + 5) = x<sup>2</sup> + 5x &minus; 2x &minus; 10 = x<sup>2</sup> + 3x &minus; 10</span>.`
+      },
+      {
+        id: 'p1_q8',
+        originalNum: 8,
+        question: `Kết quả của phép chia đơn thức <span class="math">15x<sup>4</sup>y<sup>3</sup> : (&minus;3x<sup>2</sup>y<sup>2</sup>)</span> là:`,
+        options: [
+          { id: 'A', text: `<span class="math">&minus;5x<sup>2</sup>y</span>.`, isCorrect: true },
+          { id: 'B', text: `<span class="math">5x<sup>2</sup>y</span>.`, isCorrect: false },
+          { id: 'C', text: `<span class="math">&minus;5x<sup>6</sup>y<sup>5</sup></span>.`, isCorrect: false },
+          { id: 'D', text: `<span class="math">&minus;5xy</span>.`, isCorrect: false }
+        ],
+        explanation: `Chia hệ số cho hệ số và chia lũy thừa từng biến: <span class="math">[15 : (&minus;3)] &middot; (x<sup>4</sup> : x<sup>2</sup>) &middot; (y<sup>3</sup> : y<sup>2</sup>) = &minus;5x<sup>2</sup>y</span>.`
+      },
+      {
+        id: 'p1_q9',
+        originalNum: 9,
+        question: `Kết quả của phép chia đa thức <span class="math">(8x<sup>4</sup>y<sup>3</sup> &minus; 12x<sup>3</sup>y<sup>2</sup> + 4x<sup>2</sup>y) : 4x<sup>2</sup>y</span> là:`,
+        options: [
+          { id: 'A', text: `<span class="math">2x<sup>2</sup>y<sup>2</sup> &minus; 3xy + 1</span>.`, isCorrect: true },
+          { id: 'B', text: `<span class="math">2x<sup>2</sup>y<sup>2</sup> &minus; 3xy</span>.`, isCorrect: false },
+          { id: 'C', text: `<span class="math">2x<sup>2</sup>y<sup>2</sup> &minus; 3x + 1</span>.`, isCorrect: false },
+          { id: 'D', text: `<span class="math">4x<sup>2</sup>y<sup>2</sup> &minus; 3xy + 1</span>.`, isCorrect: false }
+        ],
+        explanation: `Chia từng hạng tử của đa thức cho <span class="math">4x<sup>2</sup>y</span>: <span class="math">(8x<sup>4</sup>y<sup>3</sup> : 4x<sup>2</sup>y) &minus; (12x<sup>3</sup>y<sup>2</sup> : 4x<sup>2</sup>y) + (4x<sup>2</sup>y : 4x<sup>2</sup>y) = 2x<sup>2</sup>y<sup>2</sup> &minus; 3xy + 1</span>.`
+      },
+      {
+        id: 'p1_q10',
+        originalNum: 10,
+        question: `Giá trị của đa thức <span class="frac"><span class="frac-num">3</span><span class="frac-den">2</span></span><span class="math">xy<sup>2</sup>(&minus;4y) + 1</span> tại <span class="math">x = 1</span>, <span class="math">y = &minus;1</span> là:`,
+        options: [
+          { id: 'A', text: `<span class="math-num">&minus;18</span>.`, isCorrect: false },
+          { id: 'B', text: `<span class="math-num">18</span>.`, isCorrect: false },
+          { id: 'C', text: `<span class="math-num">7</span>.`, isCorrect: true },
+          { id: 'D', text: `<span class="math-num">&minus;7</span>.`, isCorrect: false }
+        ],
+        explanation: `Thu gọn biểu thức: <span class="frac"><span class="frac-num">3</span><span class="frac-den">2</span></span><span class="math">xy<sup>2</sup>(&minus;4y) + 1 = &minus;6xy<sup>3</sup> + 1</span>. Thay <span class="math">x = 1, y = &minus;1</span> vào ta được: <span class="math">&minus;6 &middot; 1 &middot; (&minus;1)<sup>3</sup> + 1 = 6 + 1 = 7</span>.`
+      },
+      {
+        id: 'p1_q11',
+        originalNum: 11,
+        question: `Tổng số đo bốn góc của một tứ giác lồi bất kì luôn bằng:`,
+        options: [
+          { id: 'A', text: `<span class="math-num">360&deg;</span>.`, isCorrect: true },
+          { id: 'B', text: `<span class="math-num">180&deg;</span>.`, isCorrect: false },
+          { id: 'C', text: `<span class="math-num">270&deg;</span>.`, isCorrect: false },
+          { id: 'D', text: `<span class="math-num">540&deg;</span>.`, isCorrect: false }
+        ],
+        explanation: `Theo định lí tổng các góc của một tứ giác, tổng số đo bốn góc của một tứ giác lồi luôn bằng <span class="math-num">360&deg;</span>.`
+      },
+      {
+        id: 'p1_q12',
+        originalNum: 12,
+        question: `Cho tứ giác <span class="math">ABCD</span> có <span class="angle-hat">A</span> = <span class="math-num">70&deg;</span>, <span class="angle-hat">B</span> = <span class="math-num">80&deg;</span>, <span class="angle-hat">C</span> = <span class="math-num">100&deg;</span> (hình vẽ bên). Số đo góc <span class="angle-hat">D</span> bằng:`,
+        svg: SVG_DIAGRAMS.q12,
+        options: [
+          { id: 'A', text: `<span class="math-num">110&deg;</span>.`, isCorrect: true },
+          { id: 'B', text: `<span class="math-num">100&deg;</span>.`, isCorrect: false },
+          { id: 'C', text: `<span class="math-num">120&deg;</span>.`, isCorrect: false },
+          { id: 'D', text: `<span class="math-num">90&deg;</span>.`, isCorrect: false }
+        ],
+        explanation: `Trong tứ giác <span class="math">ABCD</span>: <span class="angle-hat">D</span> = <span class="math-num">360&deg; &minus; (70&deg; + 80&deg; + 100&deg;) = 360&deg; &minus; 250&deg; = 110&deg;</span>.`
+      },
+      {
+        id: 'p1_q13',
+        originalNum: 13,
+        question: `Trong các khẳng định sau về hình thang cân, khẳng định nào đúng?`,
+        options: [
+          { id: 'A', text: `Hai cạnh bên bằng nhau.`, isCorrect: true },
+          { id: 'B', text: `Hai đường chéo không bằng nhau.`, isCorrect: false },
+          { id: 'C', text: `Hai góc kề đáy bù nhau.`, isCorrect: false },
+          { id: 'D', text: `Hai cạnh đáy bằng nhau.`, isCorrect: false }
+        ],
+        explanation: `Trong hình thang cân: hai cạnh bên bằng nhau, hai đường chéo bằng nhau, hai góc kề một đáy bằng nhau.`
+      },
+      {
+        id: 'p1_q14',
+        originalNum: 14,
+        question: `Hình thang <span class="math">ABCD</span> (<span class="math">AB // CD</span>) có thêm điều kiện nào sau đây thì trở thành hình thang cân?`,
+        options: [
+          { id: 'A', text: `Hai đường chéo bằng nhau.`, isCorrect: true },
+          { id: 'B', text: `Hai cạnh bên song song.`, isCorrect: false },
+          { id: 'C', text: `Hai đường chéo vuông góc.`, isCorrect: false },
+          { id: 'D', text: `Có một góc vuông.`, isCorrect: false }
+        ],
+        explanation: `Dấu hiệu nhận biết hình thang cân: Hình thang có hai góc kề một đáy bằng nhau hoặc có hai đường chéo bằng nhau là hình thang cân.`
+      },
+      {
+        id: 'p1_q15',
+        originalNum: 15,
+        question: `Trong hình bình hành <span class="math">ABCD</span>, hai đường chéo <span class="math">AC</span> và <span class="math">BD</span> cắt nhau tại <span class="math">O</span> thì:`,
+        options: [
+          { id: 'A', text: `<span class="math">OA = OC</span> và <span class="math">OB = OD</span>.`, isCorrect: true },
+          { id: 'B', text: `<span class="math">OA = OB = OC = OD</span>.`, isCorrect: false },
+          { id: 'C', text: `<span class="math">AC &perp; BD</span>.`, isCorrect: false },
+          { id: 'D', text: `<span class="math">AC = BD</span>.`, isCorrect: false }
+        ],
+        explanation: `Trong hình bình hành, hai đường chéo cắt nhau tại trung điểm của mỗi đường nên <span class="math">OA = OC</span> và <span class="math">OB = OD</span>.`
+      },
+      {
+        id: 'p1_q16',
+        originalNum: 16,
+        question: `Cho hình bình hành <span class="math">ABCD</span> có hai đường chéo cắt nhau tại <span class="math">O</span> (hình vẽ bên). Khẳng định nào sau đây là <strong>SAI</strong>?`,
+        svg: SVG_DIAGRAMS.q16,
+        options: [
+          { id: 'A', text: `<span class="math">AC = BD</span>.`, isCorrect: true },
+          { id: 'B', text: `<span class="math">AB = CD</span> và <span class="math">AD = BC</span>.`, isCorrect: false },
+          { id: 'C', text: `<span class="math">AB // CD</span> và <span class="math">AD // BC</span>.`, isCorrect: false },
+          { id: 'D', text: `<span class="angle-hat">A</span> = <span class="angle-hat">C</span> và <span class="angle-hat">B</span> = <span class="angle-hat">D</span>.`, isCorrect: false }
+        ],
+        explanation: `Trong hình bình hành nói chung, hai đường chéo không bằng nhau (<span class="math">AC = BD</span> là tính chất của hình chữ nhật). Do đó khẳng định <span class="math">AC = BD</span> là SAI.`
+      },
+      {
+        id: 'p1_q17',
+        originalNum: 17,
+        question: `Trong các khẳng định sau về hình chữ nhật, khẳng định nào <strong>SAI</strong>?`,
+        options: [
+          { id: 'A', text: `Hai đường chéo vuông góc.`, isCorrect: true },
+          { id: 'B', text: `Bốn góc đều bằng <span class="math-num">90&deg;</span>.`, isCorrect: false },
+          { id: 'C', text: `Hai đường chéo bằng nhau.`, isCorrect: false },
+          { id: 'D', text: `Các cạnh đối bằng nhau.`, isCorrect: false }
+        ],
+        explanation: `Hình chữ nhật có bốn góc vuông, các cạnh đối bằng nhau và hai đường chéo bằng nhau. Hai đường chéo của hình chữ nhật không nhất thiết vuông góc (chỉ vuông góc khi là hình vuông).`
+      },
+      {
+        id: 'p1_q18',
+        originalNum: 18,
+        question: `Cho hình chữ nhật <span class="math">ABCD</span> có hai đường chéo cắt nhau tại <span class="math">O</span> (hình vẽ bên). Biết <span class="math">AC = 10</span> cm, độ dài đoạn thẳng <span class="math">OB</span> bằng:`,
+        svg: SVG_DIAGRAMS.q18,
+        options: [
+          { id: 'A', text: `<span class="math-num">5</span> cm.`, isCorrect: true },
+          { id: 'B', text: `<span class="math-num">10</span> cm.`, isCorrect: false },
+          { id: 'C', text: `<span class="math-num">20</span> cm.`, isCorrect: false },
+          { id: 'D', text: `<span class="math-num">2,5</span> cm.`, isCorrect: false }
+        ],
+        explanation: `Trong hình chữ nhật <span class="math">ABCD</span>, hai đường chéo bằng nhau và cắt nhau tại trung điểm mỗi đường nên <span class="math">BD = AC = 10</span> cm và <span class="math">OB = BD : 2 = 10 : 2 = 5</span> cm.`
+      },
+      {
+        id: 'p1_q19',
+        originalNum: 19,
+        question: `Cho tam giác <span class="math">ABC</span> vuông tại <span class="math">A</span> có đường trung tuyến <span class="math">AM</span> ứng với cạnh huyền <span class="math">BC</span>. Biết <span class="math">BC = 12</span> cm, độ dài <span class="math">AM</span> bằng:`,
+        options: [
+          { id: 'A', text: `<span class="math-num">6</span> cm.`, isCorrect: true },
+          { id: 'B', text: `<span class="math-num">12</span> cm.`, isCorrect: false },
+          { id: 'C', text: `<span class="math-num">24</span> cm.`, isCorrect: false },
+          { id: 'D', text: `<span class="math-num">3</span> cm.`, isCorrect: false }
+        ],
+        explanation: `Trong tam giác vuông, đường trung tuyến ứng với cạnh huyền bằng nửa cạnh huyền: <span class="math">AM = BC : 2 = 12 : 2 = 6</span> cm.`
+      },
+      {
+        id: 'p1_q20',
+        originalNum: 20,
+        question: `Cho hình thoi <span class="math">ABCD</span> có hai đường chéo cắt nhau tại <span class="math">O</span> (hình vẽ bên). Khẳng định nào sau đây là <strong>SAI</strong>?`,
+        svg: SVG_DIAGRAMS.q20,
+        options: [
+          { id: 'A', text: `<span class="math">AC = BD</span>.`, isCorrect: true },
+          { id: 'B', text: `<span class="math">AC &perp; BD</span>.`, isCorrect: false },
+          { id: 'C', text: `<span class="math">AB = BC = CD = DA</span>.`, isCorrect: false },
+          { id: 'D', text: `<span class="math">OA = OC</span>, <span class="math">OB = OD</span>.`, isCorrect: false }
+        ],
+        explanation: `Trong hình thoi, bốn cạnh bằng nhau, hai đường chéo vuông góc và cắt nhau tại trung điểm mỗi đường, nhưng hai đường chéo không nhất thiết bằng nhau (<span class="math">AC = BD</span> là SAI).`
+      }
+    ];
+
+    const ORIGINAL_PART2 = [
+      {
+        id: 'p2_q1',
+        originalNum: 1,
+        stem: `Cho các đơn thức <span class="math">A = 4x<sup>2</sup>y<sup>3</sup></span>, <span class="math">B = &minus;7x<sup>2</sup>y<sup>3</sup></span>, <span class="math">C = 4x<sup>3</sup>y<sup>2</sup></span>. Khi đó:`,
+        statements: [
+          {
+            id: 'a',
+            text: `Đơn thức <span class="math">A</span> và <span class="math">B</span> là hai đơn thức đồng dạng.`,
+            correct: true,
+            explanation: `Đúng vì <span class="math">A</span> và <span class="math">B</span> có hệ số khác 0 và có cùng phần biến là <span class="math">x<sup>2</sup>y<sup>3</sup></span>.`
+          },
+          {
+            id: 'b',
+            text: `Đơn thức <span class="math">A</span> và <span class="math">C</span> là hai đơn thức đồng dạng.`,
+            correct: false,
+            explanation: `Sai vì phần biến của <span class="math">A</span> là <span class="math">x<sup>2</sup>y<sup>3</sup></span> khác với phần biến của <span class="math">C</span> là <span class="math">x<sup>3</sup>y<sup>2</sup></span>.`
+          },
+          {
+            id: 'c',
+            text: `Tổng <span class="math">A + B = &minus;3x<sup>2</sup>y<sup>3</sup></span>.`,
+            correct: true,
+            explanation: `Đúng vì <span class="math">A + B = 4x<sup>2</sup>y<sup>3</sup> + (&minus;7x<sup>2</sup>y<sup>3</sup>) = (4 &minus; 7)x<sup>2</sup>y<sup>3</sup> = &minus;3x<sup>2</sup>y<sup>3</sup></span>.`
+          },
+          {
+            id: 'd',
+            text: `Hiệu <span class="math">A &minus; B = 11x<sup>2</sup>y<sup>3</sup></span>.`,
+            correct: true,
+            explanation: `Đúng vì <span class="math">A &minus; B = 4x<sup>2</sup>y<sup>3</sup> &minus; (&minus;7x<sup>2</sup>y<sup>3</sup>) = (4 + 7)x<sup>2</sup>y<sup>3</sup> = 11x<sup>2</sup>y<sup>3</sup></span>.`
+          }
+        ]
+      },
+      {
+        id: 'p2_q2',
+        originalNum: 2,
+        stem: `Cho đa thức <span class="math">M = 5x<sup>4</sup>y &minus; 3x<sup>2</sup>y<sup>3</sup> + 2xy &minus; 5x<sup>4</sup>y + x<sup>2</sup>y<sup>3</sup> + 7</span>. Khi đó:`,
+        statements: [
+          {
+            id: 'a',
+            text: `Đa thức <span class="math">M</span> có 6 hạng tử trước khi thu gọn.`,
+            correct: true,
+            explanation: `Đúng, biểu thức ban đầu của <span class="math">M</span> gồm 6 hạng tử.`
+          },
+          {
+            id: 'b',
+            text: `Thu gọn đa thức <span class="math">M = &minus;2x<sup>2</sup>y<sup>3</sup> + 2xy + 7</span>.`,
+            correct: true,
+            explanation: `Đúng vì <span class="math">(5x<sup>4</sup>y &minus; 5x<sup>4</sup>y) + (&minus;3x<sup>2</sup>y<sup>3</sup> + x<sup>2</sup>y<sup>3</sup>) + 2xy + 7 = &minus;2x<sup>2</sup>y<sup>3</sup> + 2xy + 7</span>.`
+          },
+          {
+            id: 'c',
+            text: `Bậc của đa thức <span class="math">M</span> sau khi thu gọn là 4.`,
+            correct: false,
+            explanation: `Sai vì hạng tử <span class="math">&minus;2x<sup>2</sup>y<sup>3</sup></span> có bậc là <span class="math-num">2 + 3 = 5</span>, nên bậc của đa thức <span class="math">M</span> sau khi thu gọn là <span class="math-num">5</span>.`
+          },
+          {
+            id: 'd',
+            text: `Tại <span class="math">x = 1, y = 1</span> thì <span class="math">M = 7</span>.`,
+            correct: true,
+            explanation: `Đúng vì thay <span class="math">x = 1, y = 1</span> vào <span class="math">M = &minus;2(1)<sup>2</sup>(1)<sup>3</sup> + 2(1)(1) + 7 = &minus;2 + 2 + 7 = 7</span>.`
+          }
+        ]
+      },
+      {
+        id: 'p2_q3',
+        originalNum: 3,
+        stem: `Về định nghĩa và dấu hiệu nhận biết của hình bình hành:`,
+        statements: [
+          {
+            id: 'a',
+            text: `Hình bình hành là tứ giác có các cạnh đối song song.`,
+            correct: true,
+            explanation: `Đúng theo định nghĩa hình bình hành.`
+          },
+          {
+            id: 'b',
+            text: `Tứ giác có hai cạnh đối song song và bằng nhau là hình bình hành.`,
+            correct: true,
+            explanation: `Đúng theo dấu hiệu nhận biết hình bình hành.`
+          },
+          {
+            id: 'c',
+            text: `Tứ giác có hai đường chéo cắt nhau tại trung điểm của mỗi đường là hình bình hành.`,
+            correct: true,
+            explanation: `Đúng theo dấu hiệu nhận biết hình bình hành.`
+          },
+          {
+            id: 'd',
+            text: `Tứ giác có hai đường chéo vuông góc với nhau là hình bình hành.`,
+            correct: false,
+            explanation: `Sai vì tứ giác có hai đường chéo vuông góc chưa chắc có các cạnh đối song song.`
+          }
+        ]
+      },
+      {
+        id: 'p2_q4',
+        originalNum: 4,
+        stem: `Về định nghĩa và tính chất của hình thoi:`,
+        statements: [
+          {
+            id: 'a',
+            text: `Hình thoi là tứ giác có bốn cạnh bằng nhau.`,
+            correct: true,
+            explanation: `Đúng theo định nghĩa hình thoi.`
+          },
+          {
+            id: 'b',
+            text: `Trong hình thoi, hai đường chéo vuông góc với nhau.`,
+            correct: true,
+            explanation: `Đúng theo tính chất đường chéo của hình thoi.`
+          },
+          {
+            id: 'c',
+            text: `Hai đường chéo của hình thoi là các đường phân giác của các góc.`,
+            correct: true,
+            explanation: `Đúng theo tính chất đường chéo của hình thoi.`
+          },
+          {
+            id: 'd',
+            text: `Hình thoi luôn có hai đường chéo bằng nhau.`,
+            correct: false,
+            explanation: `Sai vì hình thoi chỉ có hai đường chéo bằng nhau khi nó là hình vuông.`
+          }
+        ]
+      }
+    ];
+
+    // =========================================================================
+    // APPLICATION STATE
+    // =========================================================================
+    let isShuffleMode = false;       // false = Giữ nguyên đề gốc, true = Đảo đề
+    let quizMode = 'practice';       // 'practice' = Chấm ngay khi chọn, 'exam' = Nộp bài mới chấm
+    let sectionFilter = 'all';       // 'all' | 'part1' | 'part2'
+    let isSubmitted = false;         // Cho chế độ kiểm tra (hoặc khi bấm Nộp bài)
+
+    let activePart1 = [];
+    let activePart2 = [];
+
+    // Lưu câu trả lời của người dùng
+    // userAnswersP1[questionId] = optionIndex (0..3)
+    // userAnswersP2[questionId] = { a: true/false, b: true/false, c: true/false, d: true/false }
+    let userAnswersP1 = {};
+    let userAnswersP2 = {};
+
+    // Timer
+    let secondsElapsed = 0;
+    let timerInterval = null;
+
+    // =========================================================================
+    // UTILITY FUNCTIONS
+    // =========================================================================
+    function shuffleArray(arr) {
+      const copy = [...arr];
+      for (let i = copy.length - 1; i > 0; i--) {
+        const j = Math.floor(Math.random() * (i + 1));
+        [copy[i], copy[j]] = [copy[j], copy[i]];
+      }
+      return copy;
+    }
+
+    function startTimer() {
+      if (timerInterval) clearInterval(timerInterval);
+      secondsElapsed = 0;
+      updateTimerUI();
+      timerInterval = setInterval(() => {
+        if (!isSubmitted) {
+          secondsElapsed++;
+          updateTimerUI();
+        }
+      }, 1000);
+    }
+
+    function updateTimerUI() {
+      const mins = String(Math.floor(secondsElapsed / 60)).padStart(2, '0');
+      const secs = String(secondsElapsed % 60).padStart(2, '0');
+      document.getElementById('timerDisplay').textContent = `${mins}:${secs}`;
+    }
+
+    // =========================================================================
+    // INITIALIZATION & MODE SWITCHING
+    // =========================================================================
+    function buildQuestionSet(onlyWrongIds = null) {
+      // Deep copy original questions
+      let p1 = ORIGINAL_PART1.map(q => ({
+        ...q,
+        options: q.options.map(opt => ({ ...opt }))
+      }));
+
+      let p2 = ORIGINAL_PART2.map(q => ({
+        ...q,
+        statements: q.statements.map(st => ({ ...st }))
+      }));
+
+      if (onlyWrongIds) {
+        p1 = p1.filter(q => onlyWrongIds.p1.includes(q.id));
+        p2 = p2.filter(q => onlyWrongIds.p2.includes(q.id));
+      }
+
+      if (isShuffleMode) {
+        p1 = shuffleArray(p1).map(q => ({
+          ...q,
+          options: shuffleArray(q.options)
+        }));
+        p2 = shuffleArray(p2).map(q => ({
+          ...q,
+          statements: shuffleArray(q.statements)
+        }));
+      }
+
+      activePart1 = p1;
+      activePart2 = p2;
+    }
+
+    function resetAndStart(onlyWrongIds = null) {
+      isSubmitted = false;
+      userAnswersP1 = {};
+      userAnswersP2 = {};
+      document.getElementById('resultBanner').classList.add('hidden');
+      document.getElementById('btnRetryWrong').classList.add('hidden');
+      document.getElementById('btnSubmitText').textContent = 'Nộp bài & Xem kết quả';
+
+      buildQuestionSet(onlyWrongIds);
+      renderAll();
+      startTimer();
+    }
+
+    function setOrderMode(shuffle) {
+      isShuffleMode = shuffle;
+
+      const btnOrig = document.getElementById('btnOrderOriginal');
+      const btnShuf = document.getElementById('btnOrderShuffle');
+      const badge = document.getElementById('shuffleBadge');
+      const helper = document.getElementById('orderHelperText');
+
+      if (!shuffle) {
+        btnOrig.className = 'py-2 px-3 rounded-lg text-xs sm:text-sm font-semibold transition flex items-center justify-center gap-1.5 bg-white text-indigo-700 shadow-sm';
+        btnShuf.className = 'py-2 px-3 rounded-lg text-xs sm:text-sm font-semibold transition flex items-center justify-center gap-1.5 text-slate-600 hover:text-slate-900';
+        badge.textContent = 'Đề gốc';
+        badge.className = 'text-xs font-semibold px-2.5 py-0.5 rounded-full bg-slate-100 text-slate-700';
+        helper.innerHTML = 'Giữ nguyên thứ tự từ Câu 1 &rarr; 20 (Phần I), Câu 1 &rarr; 4 (Phần II) và giữ nguyên vị trí A, B, C, D như trên giấy.';
+      } else {
+        btnShuf.className = 'py-2 px-3 rounded-lg text-xs sm:text-sm font-semibold transition flex items-center justify-center gap-1.5 bg-white text-indigo-700 shadow-sm';
+        btnOrig.className = 'py-2 px-3 rounded-lg text-xs sm:text-sm font-semibold transition flex items-center justify-center gap-1.5 text-slate-600 hover:text-slate-900';
+        badge.textContent = 'Đã đảo đề';
+        badge.className = 'text-xs font-semibold px-2.5 py-0.5 rounded-full bg-amber-100 text-amber-800';
+        helper.innerHTML = 'Đã xáo trộn ngẫu nhiên thứ tự câu hỏi và xáo trộn vị trí các đáp án A, B, C, D để tránh học vẹt vị trí.';
+      }
+
+      resetAndStart();
+    }
+
+    function setQuizMode(mode) {
+      quizMode = mode;
+
+      const btnPrac = document.getElementById('btnModePractice');
+      const btnExam = document.getElementById('btnModeExam');
+      const helper = document.getElementById('modeHelperText');
+
+      if (mode === 'practice') {
+        btnPrac.className = 'py-2 px-3 rounded-lg text-xs sm:text-sm font-semibold transition flex items-center justify-center gap-1.5 bg-white text-indigo-700 shadow-sm';
+        btnExam.className = 'py-2 px-3 rounded-lg text-xs sm:text-sm font-semibold transition flex items-center justify-center gap-1.5 text-slate-600 hover:text-slate-900';
+        helper.innerHTML = '<strong>Chế độ Luyện tập:</strong> Chọn đáp án nào sẽ báo Đúng/Sai và mở lời giải chi tiết ngay lập tức.';
+      } else {
+        btnExam.className = 'py-2 px-3 rounded-lg text-xs sm:text-sm font-semibold transition flex items-center justify-center gap-1.5 bg-white text-indigo-700 shadow-sm';
+        btnPrac.className = 'py-2 px-3 rounded-lg text-xs sm:text-sm font-semibold transition flex items-center justify-center gap-1.5 text-slate-600 hover:text-slate-900';
+        helper.innerHTML = '<strong>Chế độ Kiểm tra:</strong> Làm xong toàn bộ rồi nhấn <strong>Nộp bài</strong> hệ thống mới chấm điểm và hiển thị đáp án.';
+      }
+
+      // Re-render current progress with the newly selected feedback mode
+      renderAll();
+    }
+
+    function setSectionFilter(filter) {
+      sectionFilter = filter;
+      const filters = {
+        all: document.getElementById('filterAll'),
+        part1: document.getElementById('filterPart1'),
+        part2: document.getElementById('filterPart2')
+      };
+
+      Object.keys(filters).forEach(k => {
+        if (k === filter) {
+          filters[k].className = 'py-1.5 px-2 rounded-lg text-xs font-semibold bg-indigo-50 text-indigo-700 border border-indigo-200';
+        } else {
+          filters[k].className = 'py-1.5 px-2 rounded-lg text-xs font-semibold bg-white text-slate-600 border border-slate-200 hover:bg-slate-50';
+        }
+      });
+
+      document.getElementById('part1Section').style.display = (filter === 'all' || filter === 'part1') ? 'block' : 'none';
+      document.getElementById('part2Section').style.display = (filter === 'all' || filter === 'part2') ? 'block' : 'none';
+    }
+
+    // =========================================================================
+    // USER INTERACTION HANDLERS
+    // =========================================================================
+    function selectPart1Option(questionId, optionIndex) {
+      if (isSubmitted) return;
+      userAnswersP1[questionId] = optionIndex;
+      renderAll();
+    }
+
+    function selectPart2Statement(questionId, statementIdx, boolValue) {
+      if (isSubmitted) return;
+      if (!userAnswersP2[questionId]) {
+        userAnswersP2[questionId] = {};
+      }
+      userAnswersP2[questionId][statementIdx] = boolValue;
+      renderAll();
+    }
+
+    function scrollToQuestion(domId) {
+      const el = document.getElementById(domId);
+      if (el) {
+        el.scrollIntoView({ behavior: 'smooth', block: 'center' });
+      }
+    }
+
+    function submitExam() {
+      isSubmitted = true;
+      renderAll();
+
+      const stats = calculateStats();
+      const banner = document.getElementById('resultBanner');
+      banner.classList.remove('hidden');
+
+      document.getElementById('resultBannerScore').textContent = stats.tenScaleScore.toFixed(2);
+      document.getElementById('resultBannerTitle').textContent =
+        stats.tenScaleScore >= 8.5 ? 'Xuất sắc! Bạn nắm kiến thức rất vững!' :
+        stats.tenScaleScore >= 6.5 ? 'Khá tốt! Hãy xem lại một vài câu sai nhé!' :
+        'Cố gắng lên! Hãy đọc kỹ lời giải bên dưới và làm lại nhé!';
+
+      document.getElementById('resultBannerDesc').textContent =
+        `Đúng ${stats.p1Correct}/${activePart1.length} câu Phần I và ${stats.p2SubCorrect}/${activePart2.length * 4} ý Đúng/Sai ở Phần II (Thời gian: ${document.getElementById('timerDisplay').textContent}).`;
+
+      if (stats.wrongP1Ids.length > 0 || stats.wrongP2Ids.length > 0) {
+        document.getElementById('btnRetryWrong').classList.remove('hidden');
+      } else {
+        document.getElementById('btnRetryWrong').classList.add('hidden');
+      }
+
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
+
+    function retryWrongOnly() {
+      const stats = calculateStats();
+      if (stats.wrongP1Ids.length === 0 && stats.wrongP2Ids.length === 0) return;
+      resetAndStart({
+        p1: stats.wrongP1Ids,
+        p2: stats.wrongP2Ids
+      });
+    }
+
+    // =========================================================================
+    // SCORING & STATISTICS
+    // =========================================================================
+    function calculateStats() {
+      let p1Answered = 0;
+      let p1Correct = 0;
+      const wrongP1Ids = [];
+
+      activePart1.forEach(q => {
+        const chosenIdx = userAnswersP1[q.id];
+        if (chosenIdx !== undefined) {
+          p1Answered++;
+          if (q.options[chosenIdx] && q.options[chosenIdx].isCorrect) {
+            p1Correct++;
+          } else {
+            wrongP1Ids.push(q.id);
+          }
+        } else {
+          wrongP1Ids.push(q.id);
+        }
+      });
+
+      let p2QuestionsCompleted = 0;
+      let p2SubAnswered = 0;
+      let p2SubCorrect = 0;
+      const wrongP2Ids = [];
+
+      activePart2.forEach(q => {
+        const ansObj = userAnswersP2[q.id] || {};
+        const keys = Object.keys(ansObj);
+        if (keys.length === q.statements.length) {
+          p2QuestionsCompleted++;
+        }
+        let allCorrectInThisQ = true;
+        q.statements.forEach((st, idx) => {
+          if (ansObj[idx] !== undefined) {
+            p2SubAnswered++;
+            if (ansObj[idx] === st.correct) {
+              p2SubCorrect++;
+            } else {
+              allCorrectInThisQ = false;
+            }
+          } else {
+            allCorrectInThisQ = false;
+          }
+        });
+        if (!allCorrectInThisQ) {
+          wrongP2Ids.push(q.id);
+        }
+      });
+
+      const totalQuestions = activePart1.length + activePart2.length;
+      const completedQuestions = p1Answered + p2QuestionsCompleted;
+
+      // Quy đổi thang điểm 10 theo chuẩn (Tổng số ý tính điểm: 20 câu P1 + 16 ý P2 = 36 đơn vị hoặc 6 điểm P1 + 4 điểm P2)
+      const totalPossibleUnits = activePart1.length + activePart2.length * 4;
+      const earnedUnits = p1Correct + p2SubCorrect;
+      const tenScaleScore = totalPossibleUnits > 0 ? (earnedUnits / totalPossibleUnits) * 10 : 0;
+
+      return {
+        p1Answered,
+        p1Correct,
+        p2QuestionsCompleted,
+        p2SubAnswered,
+        p2SubCorrect,
+        totalQuestions,
+        completedQuestions,
+        tenScaleScore,
+        wrongP1Ids,
+        wrongP2Ids
+      };
+    }
+
+    // =========================================================================
+    // RENDERING UI
+    // =========================================================================
+    function renderAll() {
+      renderPart1();
+      renderPart2();
+      renderSidebarAndProgress();
+    }
+
+    function renderPart1() {
+      const container = document.getElementById('part1QuestionsList');
+      if (activePart1.length === 0) {
+        container.innerHTML = `<div class="bg-white rounded-2xl border border-slate-200 p-6 text-center text-slate-500 text-sm">Không có câu hỏi nào ở Phần I trong bộ lọc hiện tại.</div>`;
+        return;
+      }
+
+      const labels = ['A', 'B', 'C', 'D'];
+      const html = activePart1.map((q, qIndex) => {
+        const chosenIdx = userAnswersP1[q.id];
+        const hasAnswered = chosenIdx !== undefined;
+        const showFeedback = (quizMode === 'practice' && hasAnswered) || isSubmitted;
+        const isUserCorrect = hasAnswered && q.options[chosenIdx]?.isCorrect;
+
+        // Card border highlight when feedback is visible
+        let cardBorderClass = 'border-slate-200';
+        let statusBadge = '';
+
+        if (showFeedback) {
+          if (isUserCorrect) {
+            cardBorderClass = 'border-emerald-300 ring-1 ring-emerald-100';
+            statusBadge = `<span class="inline-flex items-center gap-1 text-xs font-bold text-emerald-700 bg-emerald-50 border border-emerald-200 px-2.5 py-1 rounded-full">✓ Chính xác</span>`;
+          } else if (hasAnswered) {
+            cardBorderClass = 'border-rose-300 ring-1 ring-rose-100';
+            statusBadge = `<span class="inline-flex items-center gap-1 text-xs font-bold text-rose-700 bg-rose-50 border border-rose-200 px-2.5 py-1 rounded-full">✕ Chưa đúng</span>`;
+          } else {
+            cardBorderClass = 'border-amber-300';
+            statusBadge = `<span class="inline-flex items-center gap-1 text-xs font-bold text-amber-700 bg-amber-50 border border-amber-200 px-2.5 py-1 rounded-full">! Chưa chọn</span>`;
+          }
+        } else if (hasAnswered) {
+          cardBorderClass = 'border-indigo-200';
+          statusBadge = `<span class="inline-flex items-center gap-1 text-xs font-semibold text-indigo-700 bg-indigo-50 px-2.5 py-1 rounded-full">Đã chọn ${labels[chosenIdx]}</span>`;
+        }
+
+        const originTag = isShuffleMode
+          ? `<span class="text-xs font-normal text-slate-400 ml-1.5">(Câu ${q.originalNum} đề gốc)</span>`
+          : '';
+
+        const optionsHtml = q.options.map((opt, optIdx) => {
+          const isSelected = chosenIdx === optIdx;
+          const labelLetter = labels[optIdx];
+
+          let btnStyle = 'bg-slate-50 hover:bg-indigo-50/60 border-slate-200 text-slate-800';
+          let circleStyle = 'bg-white border-slate-300 text-slate-700';
+          let rightIcon = '';
+
+          if (showFeedback) {
+            if (opt.isCorrect) {
+              btnStyle = 'bg-emerald-50/90 border-emerald-500 text-emerald-950 font-semibold';
+              circleStyle = 'bg-emerald-600 border-emerald-600 text-white';
+              rightIcon = `<span class="ml-auto text-emerald-600 font-bold text-xs sm:text-sm shrink-0">Đáp án đúng ✓</span>`;
+            } else if (isSelected && !opt.isCorrect) {
+              btnStyle = 'bg-rose-50/90 border-rose-400 text-rose-950';
+              circleStyle = 'bg-rose-600 border-rose-600 text-white';
+              rightIcon = `<span class="ml-auto text-rose-600 font-bold text-xs sm:text-sm shrink-0">Bạn chọn ✕</span>`;
+            } else {
+              btnStyle = 'bg-slate-50/50 border-slate-200 text-slate-400 opacity-75';
+              circleStyle = 'bg-slate-100 border-slate-200 text-slate-400';
+            }
+          } else if (isSelected) {
+            btnStyle = 'bg-indigo-50 border-indigo-600 text-indigo-950 font-semibold shadow-sm';
+            circleStyle = 'bg-indigo-600 border-indigo-600 text-white';
+          }
+
+          return `
+            <button
+              type="button"
+              onclick="selectPart1Option('${q.id}', ${optIdx})"
+              ${isSubmitted ? 'disabled' : ''}
+              class="option-btn w-full text-left p-3.5 rounded-xl border-2 flex items-center gap-3 ${btnStyle}"
+            >
+              <span class="w-7 h-7 rounded-lg border flex items-center justify-center text-xs font-bold shrink-0 ${circleStyle}">
+                ${labelLetter}
+              </span>
+              <span class="text-sm sm:text-base leading-snug">${opt.text}</span>
+              ${rightIcon}
+            </button>
+          `;
+        }).join('');
+
+        const explanationHtml = showFeedback ? `
+          <div class="mt-4 p-3.5 rounded-xl bg-indigo-50/70 border border-indigo-100 text-xs sm:text-sm text-slate-700 leading-relaxed">
+            <span class="font-bold text-indigo-800">💡 Giải thích: </span>
+            ${q.explanation}
+          </div>
+        ` : '';
+
+        return `
+          <article id="card_${q.id}" class="bg-white rounded-2xl border ${cardBorderClass} p-5 shadow-sm transition">
+            <div class="flex items-start justify-between gap-3 mb-3">
+              <div class="text-sm sm:text-base font-bold text-indigo-700">
+                Câu ${qIndex + 1}${originTag}:
+              </div>
+              ${statusBadge}
+            </div>
+
+            <div class="text-slate-900 text-sm sm:text-base font-medium leading-relaxed mb-4">
+              ${q.question}
+            </div>
+
+            ${q.svg ? `<div class="mb-4 bg-slate-50/70 rounded-xl border border-slate-100 p-2">${q.svg}</div>` : ''}
+
+            <div class="grid grid-cols-1 sm:grid-cols-2 gap-2.5">
+              ${optionsHtml}
+            </div>
+
+            ${explanationHtml}
+          </article>
+        `;
+      }).join('');
+
+      container.innerHTML = html;
+    }
+
+    function renderPart2() {
+      const container = document.getElementById('part2QuestionsList');
+      if (activePart2.length === 0) {
+        container.innerHTML = `<div class="bg-white rounded-2xl border border-slate-200 p-6 text-center text-slate-500 text-sm">Không có câu hỏi nào ở Phần II trong bộ lọc hiện tại.</div>`;
+        return;
+      }
+
+      const subLabels = ['a', 'b', 'c', 'd'];
+
+      const html = activePart2.map((q, qIndex) => {
+        const ansObj = userAnswersP2[q.id] || {};
+        const originTag = isShuffleMode
+          ? `<span class="text-xs font-normal text-slate-400 ml-1.5">(Câu ${q.originalNum} đề gốc)</span>`
+          : '';
+
+        const statementsHtml = q.statements.map((st, stIdx) => {
+          const userVal = ansObj[stIdx]; // true | false | undefined
+          const hasChosen = userVal !== undefined;
+          const showFeedback = (quizMode === 'practice' && hasChosen) || isSubmitted;
+          const isSubCorrect = hasChosen && userVal === st.correct;
+
+          let rowBorder = 'border-slate-200 bg-slate-50/60';
+          if (showFeedback) {
+            if (isSubCorrect) {
+              rowBorder = 'border-emerald-300 bg-emerald-50/40';
+            } else {
+              rowBorder = 'border-rose-300 bg-rose-50/40';
+            }
+          } else if (hasChosen) {
+            rowBorder = 'border-indigo-200 bg-indigo-50/20';
+          }
+
+          // Button True style
+          let btnTrueClass = 'border-slate-300 bg-white text-slate-700 hover:bg-slate-100';
+          let btnFalseClass = 'border-slate-300 bg-white text-slate-700 hover:bg-slate-100';
+
+          if (showFeedback) {
+            if (st.correct === true) {
+              btnTrueClass = 'border-emerald-600 bg-emerald-600 text-white font-bold shadow-sm';
+              if (userVal === false) {
+                btnFalseClass = 'border-rose-500 bg-rose-100 text-rose-800 font-bold line-through';
+              }
+            } else {
+              btnFalseClass = 'border-emerald-600 bg-emerald-600 text-white font-bold shadow-sm';
+              if (userVal === true) {
+                btnTrueClass = 'border-rose-500 bg-rose-100 text-rose-800 font-bold line-through';
+              }
+            }
+          } else {
+            if (userVal === true) {
+              btnTrueClass = 'border-indigo-600 bg-indigo-600 text-white font-bold shadow-sm';
+            } else if (userVal === false) {
+              btnFalseClass = 'border-indigo-600 bg-indigo-600 text-white font-bold shadow-sm';
+            }
+          }
+
+          const subExplanation = showFeedback ? `
+            <div class="mt-2 text-xs text-slate-600 bg-white/90 rounded-lg px-3 py-2 border border-slate-200/80">
+              <span class="font-bold ${isSubCorrect ? 'text-emerald-700' : 'text-rose-700'}">
+                ${isSubCorrect ? '✓ Đúng:' : `✕ Đáp án đúng là ${st.correct ? 'Đúng (Đ)' : 'Sai (S)'}:`}
+              </span>
+              ${st.explanation}
+            </div>
+          ` : '';
+
+          return `
+            <div class="p-3.5 rounded-xl border ${rowBorder} transition">
+              <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-3">
+                <div class="text-sm sm:text-base text-slate-800 leading-snug">
+                  <span class="font-bold text-indigo-700 mr-1">${subLabels[stIdx]})</span>
+                  ${st.text}
+                </div>
+
+                <div class="flex items-center gap-2 shrink-0 self-end sm:self-center">
+                  <button
+                    type="button"
+                    onclick="selectPart2Statement('${q.id}', ${stIdx}, true)"
+                    ${isSubmitted ? 'disabled' : ''}
+                    class="px-3.5 py-1.5 rounded-lg border text-xs sm:text-sm transition ${btnTrueClass}"
+                  >
+                    Đúng (Đ)
+                  </button>
+                  <button
+                    type="button"
+                    onclick="selectPart2Statement('${q.id}', ${stIdx}, false)"
+                    ${isSubmitted ? 'disabled' : ''}
+                    class="px-3.5 py-1.5 rounded-lg border text-xs sm:text-sm transition ${btnFalseClass}"
+                  >
+                    Sai (S)
+                  </button>
+                </div>
+              </div>
+              ${subExplanation}
+            </div>
+          `;
+        }).join('');
+
+        return `
+          <article id="card_${q.id}" class="bg-white rounded-2xl border border-slate-200 p-5 shadow-sm space-y-3">
+            <div class="flex items-center justify-between">
+              <div class="text-sm sm:text-base font-bold text-indigo-700">
+                Câu ${qIndex + 1} (Phần II)${originTag}:
+              </div>
+              <span class="text-xs text-slate-500">Chọn Đúng hoặc Sai cho mỗi ý</span>
+            </div>
+
+            <div class="text-slate-900 text-sm sm:text-base font-medium leading-relaxed">
+              ${q.stem}
+            </div>
+
+            <div class="space-y-2.5 pt-1">
+              ${statementsHtml}
+            </div>
+          </article>
+        `;
+      }).join('');
+
+      container.innerHTML = html;
+    }
+
+    function renderSidebarAndProgress() {
+      const stats = calculateStats();
+
+      // Update Progress bar & Counter
+      const pct = stats.totalQuestions > 0
+        ? Math.round((stats.completedQuestions / stats.totalQuestions) * 100)
+        : 0;
+
+      document.getElementById('progressCountText').textContent =
+        `Đã làm: ${stats.completedQuestions}/${stats.totalQuestions}`;
+      document.getElementById('progressBar').style.width = `${pct}%`;
+
+      // Update Score Box (Shown live in Practice mode, or after submit in Exam mode)
+      const showLiveScore = quizMode === 'practice' || isSubmitted;
+      if (showLiveScore) {
+        document.getElementById('scorePointText').textContent = stats.tenScaleScore.toFixed(1);
+        document.getElementById('scorePart1Text').textContent = `${stats.p1Correct}/${activePart1.length}`;
+        document.getElementById('scorePart2Text').textContent = `${stats.p2SubCorrect}/${activePart2.length * 4}`;
+      } else {
+        document.getElementById('scorePointText').textContent = '--';
+        document.getElementById('scorePart1Text').textContent = `${stats.p1Answered}/${activePart1.length}`;
+        document.getElementById('scorePart2Text').textContent = `${stats.p2SubAnswered}/${activePart2.length * 4}`;
+      }
+
+      // Render Part 1 Navigator Grid
+      const navP1 = document.getElementById('navGridPart1');
+      navP1.innerHTML = activePart1.map((q, idx) => {
+        const chosenIdx = userAnswersP1[q.id];
+        const hasAnswered = chosenIdx !== undefined;
+        const showFeedback = (quizMode === 'practice' && hasAnswered) || isSubmitted;
+
+        let colorClass = 'bg-slate-100 text-slate-600 hover:bg-slate-200';
+        if (showFeedback) {
+          if (hasAnswered && q.options[chosenIdx]?.isCorrect) {
+            colorClass = 'bg-emerald-500 text-white font-bold shadow-sm';
+          } else {
+            colorClass = 'bg-rose-500 text-white font-bold shadow-sm';
+          }
+        } else if (hasAnswered) {
+          colorClass = 'bg-indigo-600 text-white font-bold shadow-sm';
+        }
+
+        return `
+          <button
+            type="button"
+            onclick="scrollToQuestion('card_${q.id}')"
+            class="h-8 rounded-lg text-xs font-medium transition flex items-center justify-center ${colorClass}"
+          >
+            ${idx + 1}
+          </button>
+        `;
+      }).join('');
+
+      // Render Part 2 Navigator Grid
+      const navP2 = document.getElementById('navGridPart2');
+      navP2.innerHTML = activePart2.map((q, idx) => {
+        const ansObj = userAnswersP2[q.id] || {};
+        const answeredCount = Object.keys(ansObj).length;
+        const allAnswered = answeredCount === q.statements.length;
+        const showFeedback = (quizMode === 'practice' && answeredCount > 0) || isSubmitted;
+
+        let colorClass = 'bg-slate-100 text-slate-600 hover:bg-slate-200';
+        if (showFeedback) {
+          const allCorrect = allAnswered && q.statements.every((st, sIdx) => ansObj[sIdx] === st.correct);
+          if (allCorrect) {
+            colorClass = 'bg-emerald-500 text-white font-bold shadow-sm';
+          } else {
+            colorClass = 'bg-rose-500 text-white font-bold shadow-sm';
+          }
+        } else if (answeredCount > 0) {
+          colorClass = allAnswered
+            ? 'bg-indigo-600 text-white font-bold shadow-sm'
+            : 'bg-indigo-100 text-indigo-800 border border-indigo-300 font-semibold';
+        }
+
+        return `
+          <button
+            type="button"
+            onclick="scrollToQuestion('card_${q.id}')"
+            class="h-8 rounded-lg text-xs font-medium transition flex items-center justify-center ${colorClass}"
+          >
+            II.${idx + 1}
+          </button>
+        `;
+      }).join('');
+    }
+
+    // Boot application on load
+    window.addEventListener('DOMContentLoaded', () => {
+      resetAndStart();
+    });
+  </script>
+</body>
+</html>
